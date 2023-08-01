@@ -1,18 +1,24 @@
 import sys
 import pygame
 
-pygame.init()
-pygame.display.set_caption("Naruto")
 
-screen = pygame.display.set_mode((640, 480))
+class Game:
+    def __init__(self) -> None:
+        pygame.init()
+        pygame.display.set_caption("Naruto")
 
-clock = pygame.time.Clock()
+        self.screen = pygame.display.set_mode((640, 480))
+        self.clock = pygame.time.Clock()
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+    def run(self) -> None:
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
-    pygame.display.update()
-    clock.tick(60)
+            pygame.display.update()
+            self.clock.tick(60)
+
+
+Game().run()
