@@ -1,1 +1,1 @@
-"# ninja-game" 
+# ninja-game
