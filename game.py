@@ -1,5 +1,7 @@
 import sys
 import pygame
+from scripts.entities import PhysicsEntity
+from scripts.utils import load_image
 
 
 class Game:
@@ -11,32 +13,40 @@ class Game:
 
         self.clock = pygame.time.Clock()
 
-        self.img = pygame.image.load('data/images/clouds/cloud_1.png')
-        self.img.set_colorkey((0, 0, 0))
+        # self.img = pygame.image.load('data/images/clouds/cloud_1.png')
+        # self.img.set_colorkey((0, 0, 0))
 
-        self.img_pos = [160, 260]
+        # self.img_pos = [160, 260]
         self.movement = [False, False]
 
-        self.collision_area = pygame.Rect(50, 50, 300, 50)
+        # self.collision_area = pygame.Rect(50, 50, 300, 50)
+
+        self.assets = {
+            'player': load_image('entities/player.png')
+        }
+
+        self.player = PhysicsEntity(self, 'player', (50, 50), (8, 15))
 
     def run(self) -> None:
         while True:
             self.screen.fill((14, 219, 248))
 
-            img_r = pygame.Rect(
-                self.img_pos[0], self.img_pos[1], self.img.get_width(), self.img.get_height())
+            # img_r = pygame.Rect(
+            #     self.img_pos[0], self.img_pos[1], self.img.get_width(), self.img.get_height())
 
-            # Or you could SPLAT pygame.Rect(*self.img_pos, *self.img.get_size())
+            # # Or you could SPLAT pygame.Rect(*self.img_pos, *self.img.get_size())
 
-            if img_r.colliderect(self.collision_area):
-                pygame.draw.rect(self.screen, (0, 100, 255),
-                                 self.collision_area)
-            else:
-                pygame.draw.rect(self.screen, (0, 50, 155),
-                                 self.collision_area)
+            # if img_r.colliderect(self.collision_area):
+            #     pygame.draw.rect(self.screen, (0, 100, 255),
+            #                      self.collision_area)
+            # else:
+            #     pygame.draw.rect(self.screen, (0, 50, 155),
+            #                      self.collision_area)
 
-            self.img_pos[1] += (self.movement[1] - self.movement[0]) * 5
-            self.screen.blit(self.img, self.img_pos)
+            # self.img_pos[1] += (self.movement[1] - self.movement[0]) * 5
+            # self.screen.blit(self.img, self.img_pos)
+            self.player.update((self.movement[1] - self.movement[0], 0))
+            self.player.render(self.screen)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -44,15 +54,15 @@ class Game:
                     sys.exit()
 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_UP:
+                    if event.key == pygame.K_LEFT:
                         self.movement[0] = True
-                    if event.key == pygame.K_DOWN:
+                    if event.key == pygame.K_RIGHT:
                         self.movement[1] = True
 
                 if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_UP:
+                    if event.key == pygame.K_LEFT:
                         self.movement[0] = False
-                    if event.key == pygame.K_DOWN:
+                    if event.key == pygame.K_RIGHT:
                         self.movement[1] = False
 
             pygame.display.update()
