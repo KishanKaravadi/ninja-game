@@ -118,7 +118,7 @@ class Game:
                     self.particles.append(Particle(self, 'leaf', pos, velocity=[-0.1, 0.3], frame = random.randint(0, 20)))
 
             self.clouds.update()
-            self.clouds.render(self.display, offset=render_scroll)
+            self.clouds.render(self.display_2, offset=render_scroll)
 
             self.tilemap.render(self.display, offset=render_scroll)
 
@@ -163,7 +163,11 @@ class Game:
 
             display_mask = pygame.mask.from_surface(self.display)
             display_sillhouette = display_mask.to_surface(setcolor=(0, 0, 0, 180), unsetcolor=(0, 0, 0, 0))
-            self.display_2.blit(display_sillhouette, (4, 4))
+
+            # for offset in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            #     self.display_2.blit(display_sillhouette, offset)
+
+            self.display_2.blit(display_sillhouette, (0, 0))
 
             for particle in self.particles.copy():
                 kill = particle.update()
