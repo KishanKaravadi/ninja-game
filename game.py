@@ -163,7 +163,7 @@ class Game:
 
             display_mask = pygame.mask.from_surface(self.display)
             display_sillhouette = display_mask.to_surface(setcolor=(0, 0, 0, 180), unsetcolor=(0, 0, 0, 0))
-            self.display_2.blit(display_sillhouette, (0, 0))
+            self.display_2.blit(display_sillhouette, (4, 4))
 
             for particle in self.particles.copy():
                 kill = particle.update()
@@ -199,6 +199,8 @@ class Game:
                 pygame.draw.circle(transition_surf, (255, 255, 255), (self.display.get_width() // 2, self.display.get_height() // 2), (30 - abs(self.transition)) * 8)
                 transition_surf.set_colorkey((255, 255, 255))
                 self.display.blit(transition_surf, (0, 0))
+
+            self.display_2.blit(self.display, (0, 0))
 
             screenshake_offset = (random.random() * self.screenshake - self.screenshake / 2, random.random() * self.screenshake - self.screenshake / 2)
 
