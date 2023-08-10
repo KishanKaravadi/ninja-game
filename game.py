@@ -18,8 +18,8 @@ class Game:
 
         pygame.display.set_caption("Naruto")
         self.screen = pygame.display.set_mode((640, 480))
-
-        self.display = pygame.Surface((320, 240))
+        self.display = pygame.Surface((320, 240), pygame.SRCALPHA)
+        self.display_2 = pygame.Surface((320, 240))
 
         self.clock = pygame.time.Clock()
 
@@ -85,7 +85,8 @@ class Game:
 
     def run(self) -> None:
         while True:
-            self.display.blit(self.assets['background'], (0, 0))
+            self.display.fill((0, 0, 0, 0))
+            self.display_2.blit(self.assets['background'], (0, 0))
 
             self.screenshake = max(0, self.screenshake - 1)
 
@@ -160,6 +161,9 @@ class Game:
                 if kill:
                     self.sparks.remove(spark)
 
+            display_mask = pygame.mask.from_surface(self.display)
+            display_sillhouette = display_mask.to_surface(setcolor=(0, 0, 0, 180), unsetcolor=(0, 0, 0, 0))
+            self.display_2.blit(display_sillhouette, (0, 0))
 
             for particle in self.particles.copy():
                 kill = particle.update()
@@ -199,7 +203,7 @@ class Game:
             screenshake_offset = (random.random() * self.screenshake - self.screenshake / 2, random.random() * self.screenshake - self.screenshake / 2)
 
             self.screen.blit(pygame.transform.scale(
-                self.display, self.screen.get_size()), screenshake_offset)
+                self.display_2, self.screen.get_size()), screenshake_offset)
             pygame.display.update()
             self.clock.tick(60)
 
